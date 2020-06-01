@@ -1,4 +1,4 @@
-cupy-cuda100>=6.*
+cupy>=6.*
 numpy>=1.15.4
 Pillow>=4.2.1
 PyQt5>=5.12.2
