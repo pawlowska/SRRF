@@ -320,29 +320,29 @@ def calculate_trac(image_mat, out: cp.array, delay: int = 1, order: int = 0) -> 
         warnings.warn("Total number of frames is too small to do TRAC, using TRA instead")
     deltaRt = image_mat - cp.mean(image_mat, axis=0)
 
-    if order is 0:
+    if order==0:
         # TRA(time average)
         result = cp.mean(image_mat, axis=0)
-    elif order is 2:
+    elif order==2:
         # TRAC2
-        if delay is 0:
+        if delay==0:
             A = B = deltaRt
         else:
             A = deltaRt[:-delay]
             B = deltaRt[delay:]
         result = _trac2(A, B, frame_n, axis=0)
-    elif order is 3:
+    elif order==3:
         # TRAC3
-        if delay is 0:
+        if delay==0:
             A = B = C = deltaRt
         else:
             A = deltaRt[:-2 * delay]
             B = deltaRt[delay:-delay]
             C = deltaRt[2 * delay:]
         result = _trac3(A, B, C, frame_n, axis=0)
-    elif order is 4:
+    elif order==4:
         # TRAC4
-        if delay is 0:
+        if delay==0:
             A = B = C = D = deltaRt
         else:
             A = deltaRt[:-3 * delay]
@@ -432,7 +432,7 @@ def srrf(images: np.array,
     # preparing
     frame_n, h, w = shape = images.shape[:3]
     batch_size = get_batch_size(frame_n, shape, mag)
-    if batch_size is 0:
+    if batch_size==0:
         raise ValueError("Image shape is too large to process!")
     if batch_size * avg_every_n > frame_n:
         if avg_every_n < frame_n:
@@ -477,7 +477,7 @@ def srrf(images: np.array,
             mats[index_next].set(np_mat, stream=streams[index_next])
 
         # skip the first time(the copy is not finished yet)
-        if i is 0:
+        if i==0:
             continue
         # Use the current stream to process the image mat on GPU
         image_mat = mats[index_current]
